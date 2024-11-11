@@ -1,0 +1,68 @@
+<form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit($event)" *ngIf="step == 'login'">
+  <mat-form-field class="login-full-width">
+    <mat-label>Email</mat-label>
+    <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher"
+           placeholder="Ex. pat@example.com">
+    <mat-hint>Errors appear instantly!</mat-hint>
+
+    <mat-error *ngIf="loginForm.get('email')?.hasError('required') || false">This field is required</mat-error>
+    <mat-error *ngIf="loginForm.get('email')?.hasError('pattern') || false">Must be valid email</mat-error>
+
+  </mat-form-field>
+
+  <mat-form-field class="login-full-width">
+    <mat-label>Password</mat-label>
+    <input type="password" matInput formControlName="password" [errorStateMatcher]="matcher">
+
+    <mat-error *ngIf="loginForm.get('password')?.hasError('required') || false">This field is required</mat-error>
+    <mat-error *ngIf="loginForm.get('password')?.hasError('pattern') || false">Password does not match pattern</mat-error>
+
+  </mat-form-field>
+
+  <mat-form-field class="login-full-width">
+    <mat-label>Confirm password</mat-label>
+    <input type="password" matInput formControlName="passwordConfirmation" [errorStateMatcher]="matcher">
+
+    <mat-error *ngIf="loginForm.value.passwordConfirmation">Passwords do not match.</mat-error>
+
+  </mat-form-field>
+
+  <mat-form-field>
+    <input [hidden]="true" matInput>
+    <mat-checkbox class="login-margin" formControlName="agree">
+      Agree
+    </mat-checkbox>
+
+    <mat-error *ngIf="loginForm.get('agree')?.value != 'true'">You must agree to continue</mat-error>
+  </mat-form-field>
+
+  <button mat-button type="submit">Submit</button>
+</form>
+
+<form [formGroup]="countryForm" (ngSubmit)="onSave($event)" *ngIf="step == 'selectCountry'">
+  <mat-form-field class="login-full-width">
+
+    <mat-select formControlName="country" placeholder="Select Country" (selectionChange)="onSelectCountry($event)">
+      <mat-option *ngFor="let c of countries" [value]="c.id">
+        {{c.name}}
+      </mat-option>
+    </mat-select>
+
+    <mat-error *ngIf="loginForm.get('country')?.hasError('required') || false">This field is required</mat-error>
+
+  </mat-form-field>
+
+  <mat-form-field class="login-full-width">
+
+    <mat-select formControlName="province" placeholder="Select Province">
+      <mat-option *ngFor="let p of provinces" [value]="p.id">
+        {{p.name}}
+      </mat-option>
+    </mat-select>
+
+    <mat-error *ngIf="loginForm.get('province')?.hasError('required') || false">This field is required</mat-error>
+
+  </mat-form-field>
+
+  <button mat-button type="submit">Save</button>
+</form>
